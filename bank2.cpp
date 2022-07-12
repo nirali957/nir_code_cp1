@@ -25,6 +25,7 @@ class bank
     {
         return balance;
     }
+  
   int main()
   {
   

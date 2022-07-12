@@ -7,10 +7,10 @@ int main()
     cin>>a;
     if(a>=0)
     {
-        std::cout<<"\n value a:possitive"<<a;
+        std::cout<<"\n value a:possitive";
     }
     else
     {
-        std::cout<<"\n value a: negative"<<a;
+        std::cout<<"\n value a: negative";
     }
 }
