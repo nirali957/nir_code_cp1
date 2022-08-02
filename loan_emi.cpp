@@ -1,13 +1,16 @@
+
+//EMI
+// (calculate EMI) calculate the monthly payment of the loan.
 #include<iostream>
 #include<math.h>
 #include<iomanip>
 using namespace std;
 class emi
 {
-    float emi,loan,rate,n,T,pay_int,a,x,m,z,h;  //p=loan amount, r=interest rate, n=loan period, i=payable interest,T=total payment
+    long double emi, loan_amount, interest_rate, loan_period, Total_payment,
+     payable_interest, balance, monthly_interest, z, h; 
     public:
     void getdata();
-    void printdata();
     float calcdata();
     float calcdata1();
     float calcdata2();
@@ -15,45 +18,51 @@ class emi
 };
 void emi::getdata()
 {
-    cout<<"\n Enter loan amount:";    
-    cin>>loan;                            
-    cout<<"\n Enter rate of interest:";  
-    cin>>rate;
-    cout<<"\n Enter time period in month:";   
-    cin>>n;
-}
-void emi::printdata() 
-{
-    cout<<"\n\n\n           month"<<"           interest"<<"           emi-interest"<<"            balance";
+    cout<<"\n Enter loan amount : ";    
+    cin>>loan_amount;                            
+    cout<<"\n Enter rate of interest : ";  
+    cin>>interest_rate;
+    cout<<"\n Enter time period in month : ";   //n=loan period
+    cin>>loan_period;
 }
 float emi::calcdata()
 {
-    rate=rate/(12*100);     
-    //n=n*12;         // if enter month,no need it.
-    emi=(loan*rate*pow(1+rate,n)/(pow(1+rate,n)-1));   
+    interest_rate=interest_rate/(12*100);     //r=interest rate
+   // loan_period=loan_period*12;         // if enter year, need it.
+    emi=(loan_amount*interest_rate*pow(1+interest_rate,loan_period)/(pow(1+interest_rate,loan_period)-1));   // n=loan period, r=interest rate
     return emi;
 }
 float emi::calcdata1()
 {
     
-    pay_int=emi*n-loan;    
-    return pay_int;
+    payable_interest = emi * loan_period - loan_amount;     
+    return payable_interest;
 }
 float emi::calcdata2()
 {
-    T=loan+pay_int;          // T=total payment
-    return T;
+    Total_payment = loan_amount + payable_interest;        
+    return Total_payment;
 }
 
 float emi::cadata1()    
 {
-    for(int h=1;h<=n;h++)    // h=month
+    cout<<"\n\n\n           month"<<"           interest"<<"           emi-interest"<<"            balance"<<"\n"; 
+       //h=month, m=interest, z=emi-interest, a=balance
+
+    for(int h=1;h<=loan_period;h++)    // h=month
     {
-    m=loan*rate;
-    z=emi-m;
-    a=loan-(z);   //a=loan-(emi-m);
-    cout<<"\n\n           "<<h<<"                "<<m<<"              "<<z<<"               "<<a;  
-    loan=a;
+        monthly_interest = loan_amount * interest_rate;    
+        z = emi - monthly_interest;          
+        balance = loan_amount - (z);     // balance=loan_amount-(emi-monthly_interest);
+       // cout<<"\n\n           "<<h<<"               "<<monthly_interest<<"            "<<z<<"                 "<<balance;   //h=month, z=emi-interest 
+                     //h=month
+                     //z=emi-interest 
+        // cout <<std::fixed<<h<<endl;
+        // cout<<std::fixed<<monthly_interest<<endl;   
+        // cout<<std::fixed<<z<<endl;  
+        // cout<<std::fixed<<balance<<endl;  
+        cout<<std::fixed<<"\n\n             "<<h<<"            "<<monthly_interest<<"            "<<z<<"                 "<<balance;
+        loan_amount = balance;              
     }                            
 
 }
@@ -61,15 +70,22 @@ float emi::cadata1()
 int main()
 {
     emi a1;
-    float emi,T,pay_int;
+    float emi,Total_payment,payable_interest;
+    
     a1.getdata();
-    emi=a1.calcdata();
-    cout<<"\n\n monthly EMI :"<<emi;
-    pay_int=a1.calcdata1();
-    cout<<"\n\n payable interest :"<<pay_int;
-    T=a1.calcdata2();
-    cout<<"\n\n Total payment :"<<T;
-    a1.printdata();
+
+    emi = a1.calcdata();
+    cout<<"\n\n Monthly EMI : "<<emi;
+
+    payable_interest = a1.calcdata1();
+    cout<<"\n\n Payable Interest : "<<payable_interest;
+
+    Total_payment = a1.calcdata2();
+    //cout<<"\n\n Total Payment : "<<Total_payment;
+    cout<<std::fixed<<"\n\n Total Payment : "<<Total_payment;
+
+    cout<<"\n";
     a1.cadata1();
+
     return 0;
 }
